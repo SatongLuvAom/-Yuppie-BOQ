@@ -1,0 +1,24 @@
+{
+  "name": "yuppie-boq-web-app",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": ">=24.0.0",
+    "pnpm": ">=11.9.0"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @yuppie/web dev",
+    "build": "pnpm --filter @yuppie/web build",
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "pnpm --recursive --if-present typecheck",
+    "test": "vitest run --passWithNoTests"
+  },
+  "devDependencies": {
+    "@types/node": "26.1.1",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.2.10",
+    "typescript": "5.9.3",
+    "vitest": "4.1.10"
+  }
+}
