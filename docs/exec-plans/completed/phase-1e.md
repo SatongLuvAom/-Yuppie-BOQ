@@ -1,8 +1,9 @@
 # Phase 1E: Standards Workspace UI
 
-- Status: Awaiting GitHub Actions
+- Status: Completed
 - Date: 2026-07-22
 - Branch: `codex/phase-1e-standards-ui`
+- Feature commit: `28213d5`
 
 ## Scope
 
@@ -25,4 +26,7 @@
   version history, confirmations, and safe server error mapping.
 - Authenticated browser E2E: `SKIPPED`; this repository has no E2E runner or
   configured authenticated E2E environment.
-- GitHub Actions results will be recorded after the pushed commit is verified.
+- GitHub Actions `CI / verify` run 8 passed for commit `28213d5`.
+- GitHub Actions `Supabase Database Tests / migration-and-rls` run 8 passed
+  migration reset and all 59 pgTAP assertions: 23 RLS assertions and 36
+  Standards Service API assertions.
