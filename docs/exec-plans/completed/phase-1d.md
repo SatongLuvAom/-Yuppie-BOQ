@@ -32,6 +32,8 @@ and Retirement. UI, Project, BOQ, Calculation, and AI remain out of scope.
 - Completed checks: `pnpm install --frozen-lockfile`, `pnpm lint`,
   `pnpm typecheck`, `pnpm test`, and `pnpm build`.
 - Migration replay and an authenticated lifecycle smoke test passed with
-  PGlite. Real Supabase pgTAP/RLS coverage is in
-  `supabase/tests/database/standards_service_api.test.sql` for the pinned CI
-  workflow; no local Docker was used.
+  PGlite; no local Docker was used.
+- GitHub Actions `CI / verify` run 5 passed for commit `c56e989`.
+- GitHub Actions `Supabase Database Tests / migration-and-rls` run 5 passed
+  migration reset and all 59 pgTAP assertions: 23 RLS assertions and 36
+  Standards Service API assertions.
