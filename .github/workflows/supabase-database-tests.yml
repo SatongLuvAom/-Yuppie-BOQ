@@ -1,0 +1,50 @@
+name: Supabase Database Tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  migration-and-rls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.9.0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify pinned Supabase CLI
+        shell: bash
+        run: |
+          expected="$(node --print "require('./package.json').devDependencies.supabase")"
+          actual="$(pnpm exec supabase --version)"
+          test "$actual" = "$expected"
+
+      - name: Start ephemeral Supabase database
+        run: pnpm exec supabase db start
+
+      - name: Reset database and replay migrations
+        run: pnpm exec supabase db reset --local
+
+      - name: Run pgTAP and RLS tests
+        run: pnpm exec supabase test db
+
+      - name: Stop ephemeral Supabase services
+        if: always()
+        run: pnpm exec supabase stop --no-backup
