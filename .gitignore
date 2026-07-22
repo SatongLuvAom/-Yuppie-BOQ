@@ -1,6 +1,8 @@
 node_modules/
 .pnpm-store/
 .next/
+.vinext/
+.wrangler/
 dist/
 coverage/
 *.tsbuildinfo
@@ -8,4 +10,3 @@ coverage/
 .env.*
 !.env.example
 .DS_Store
-
