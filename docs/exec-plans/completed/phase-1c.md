@@ -1,6 +1,6 @@
 # Phase 1C — Supabase Local, Auth, and RLS
 
-Status: Awaiting GitHub Actions verification.
+Status: Completed on 2026-07-22 after GitHub Actions verification.
 
 ## Completed
 
@@ -21,6 +21,6 @@ Status: Awaiting GitHub Actions verification.
 - Developer machines do not run Docker or Supabase Local for this phase.
 - Repository lint, typecheck, unit/integration tests, and build run locally and
   in the main CI workflow.
-- Migration reset and pgTAP/RLS acceptance run only in the `Supabase Database
-  Tests` workflow on a GitHub-hosted runner. Phase 1C must not be reported as
-  passed until that workflow succeeds for the branch commit.
+- Migration reset and all 23 pgTAP/RLS assertions passed in the `Supabase
+  Database Tests` workflow on a GitHub-hosted runner for implementation commit
+  `68725b6`.
