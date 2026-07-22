@@ -349,17 +349,14 @@ select is(
   'DEMO_ONLY Viewer cannot read another organization'
 );
 
-select is(
-  (
-    with changed as (
-      update public.organizations
-      set name = 'DEMO_ONLY Viewer Write'
-      where id = '10000000-0000-4000-8000-000000000001'
-      returning id
-    )
-    select count(*)::integer from changed
-  ),
-  0,
+select results_eq(
+  $$
+    update public.organizations
+    set name = 'DEMO_ONLY Viewer Write'
+    where id = '10000000-0000-4000-8000-000000000001'
+    returning 1
+  $$,
+  $$ select 1 where false $$,
   'DEMO_ONLY Viewer is read-only'
 );
 
@@ -512,25 +509,22 @@ select throws_ok(
 
 set local request.jwt.claim.sub = '11000000-0000-4000-8000-000000000003';
 
-select is(
-  (
-    with changed as (
-      update public.standard_versions
-      set status = 'draft',
-          submitted_by_membership_id = null,
-          submitted_at = null,
-          reviewer_membership_id = null,
-          reviewed_at = null,
-          returned_to_draft_by_membership_id =
-            '12000000-0000-4000-8000-000000000003',
-          returned_to_draft_at = now(),
-          return_reason = 'DEMO_ONLY Direct Change'
-      where id = '14000000-0000-4000-8000-000000000002'
-      returning id
-    )
-    select count(*)::integer from changed
-  ),
-  0,
+select results_eq(
+  $$
+    update public.standard_versions
+    set status = 'draft',
+        submitted_by_membership_id = null,
+        submitted_at = null,
+        reviewer_membership_id = null,
+        reviewed_at = null,
+        returned_to_draft_by_membership_id =
+          '12000000-0000-4000-8000-000000000003',
+        returned_to_draft_at = now(),
+        return_reason = 'DEMO_ONLY Direct Change'
+    where id = '14000000-0000-4000-8000-000000000002'
+    returning 1
+  $$,
+  $$ select 1 where false $$,
   'DEMO_ONLY Approver must use an append-only decision'
 );
 
