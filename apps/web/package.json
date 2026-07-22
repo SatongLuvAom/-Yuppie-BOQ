@@ -11,6 +11,7 @@
     "@supabase/ssr": "0.12.3",
     "@supabase/supabase-js": "2.110.5",
     "@yuppie/auth": "workspace:*",
+    "@yuppie/calculation": "workspace:*",
     "@yuppie/db": "workspace:*",
     "@yuppie/domain": "workspace:*",
     "@yuppie/validation": "workspace:*",

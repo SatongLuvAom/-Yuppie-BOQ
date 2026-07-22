@@ -21,3 +21,25 @@ export type {
   WorkMethodInput,
   WorkMethodLaborInput
 } from "@yuppie/domain";
+
+export { BACKDROP_CORE_RULE_SET_V1, calculateBackdropTakeoff } from "./backdrop-core-takeoff";
+export type {
+  BackdropCoreRuleSet,
+  BackdropFrameLayout,
+  BackdropFrameMember,
+  BackdropFrameMemberOrientation,
+  BackdropFramePosition,
+  BackdropFramePositionReason,
+  BackdropHmrEstimate,
+  BackdropOpeningInput,
+  BackdropTakeoffError,
+  BackdropTakeoffErrorCode,
+  BackdropTakeoffInput,
+  BackdropTakeoffOutcome,
+  BackdropTakeoffResult,
+  BackdropTakeoffWarning,
+  BackdropTakeoffWarningCode,
+  BackdropWoodCutPiece,
+  BackdropWoodStockBar,
+  BackdropWoodTakeoff
+} from "./backdrop-core-takeoff";

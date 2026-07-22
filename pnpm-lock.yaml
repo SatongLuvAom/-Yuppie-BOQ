@@ -41,6 +41,9 @@ importers:
       '@yuppie/auth':
         specifier: workspace:*
         version: link:../../packages/auth
+      '@yuppie/calculation':
+        specifier: workspace:*
+        version: link:../../packages/calculation
       '@yuppie/db':
         specifier: workspace:*
         version: link:../../packages/db

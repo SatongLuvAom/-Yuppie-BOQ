@@ -917,3 +917,221 @@ p {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Backdrop takeoff sandbox */
+.backdrop-sandbox {
+  min-height: 100vh;
+  background:
+    linear-gradient(90deg, var(--ink-950) 0 18rem, transparent 18rem),
+    var(--paper-100);
+}
+
+.backdrop-sandbox__rail {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 18rem;
+  padding: var(--space-8) var(--space-6);
+  color: var(--paper-50);
+}
+
+.backdrop-sandbox__mark {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: inherit;
+  font-family: var(--font-label);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+}
+
+.backdrop-sandbox__mark::before {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border: 1px solid rgb(251 250 246 / 0.32);
+  border-radius: 50%;
+  color: var(--signal-500);
+  content: "YP";
+}
+
+.backdrop-sandbox__rail-copy {
+  margin-top: clamp(3rem, 12vh, 7rem);
+}
+
+.backdrop-sandbox__rail-copy .eyebrow {
+  margin: 0 0 var(--space-3);
+}
+
+.backdrop-sandbox__rail-title {
+  margin-bottom: var(--space-4);
+  font-size: 1.8rem;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+}
+
+.backdrop-sandbox__rail-description {
+  color: rgb(251 250 246 / 0.62);
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+.backdrop-sandbox__scope {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-8) 0 0;
+  padding: var(--space-5) 0 0;
+  border-top: 1px solid rgb(251 250 246 / 0.16);
+  color: rgb(251 250 246 / 0.72);
+  font-size: 0.76rem;
+  line-height: 1.5;
+  list-style: none;
+}
+
+.backdrop-sandbox__scope li::before {
+  margin-right: var(--space-2);
+  color: var(--signal-500);
+  content: "—";
+}
+
+.backdrop-sandbox__main {
+  margin-left: 18rem;
+  padding: clamp(1.5rem, 3vw, 3.5rem);
+}
+
+.backdrop-sandbox__header {
+  max-width: 58rem;
+  margin-bottom: var(--space-8);
+}
+
+.backdrop-sandbox__header .eyebrow {
+  margin: 0 0 var(--space-2);
+  color: var(--signal-600);
+}
+
+.backdrop-sandbox__header h1 {
+  margin-bottom: var(--space-3);
+  font-size: clamp(1.8rem, 4vw, 3.4rem);
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+}
+
+.backdrop-sandbox__header p {
+  max-width: 48rem;
+  color: var(--ink-650);
+  line-height: 1.7;
+}
+
+.backdrop-sandbox__workspace {
+  display: grid;
+  grid-template-columns: minmax(18rem, 24rem) minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.backdrop-sandbox__form {
+  position: sticky;
+  top: var(--space-6);
+}
+
+.backdrop-sandbox__results {
+  min-width: 0;
+}
+
+.backdrop-grid {
+  width: 100%;
+  min-height: 19rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+}
+
+.backdrop-grid__frame {
+  fill: var(--paper-50);
+  stroke: var(--ink-950);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.backdrop-grid__member {
+  stroke: var(--blue-500);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.backdrop-grid__joint {
+  stroke: var(--signal-600);
+  stroke-dasharray: 5 4;
+  stroke-width: 1.75;
+  vector-effect: non-scaling-stroke;
+}
+
+.backdrop-result-stack {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.backdrop-warning-list {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.backdrop-warning-list li {
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--amber-600);
+  color: var(--ink-650);
+  background: var(--amber-soft);
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+.backdrop-stock-cuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.backdrop-stock-cuts span {
+  padding: 0.18rem 0.42rem;
+  border: 1px solid var(--line);
+  border-radius: 99rem;
+  background: var(--paper-100);
+  font-family: var(--font-label);
+  font-size: 0.7rem;
+}
+
+@media (max-width: 78rem) {
+  .backdrop-sandbox {
+    background: var(--paper-100);
+  }
+
+  .backdrop-sandbox__rail {
+    position: static;
+    width: 100%;
+    padding: var(--space-4) var(--space-6);
+    background: var(--ink-950);
+  }
+
+  .backdrop-sandbox__rail-copy {
+    display: none;
+  }
+
+  .backdrop-sandbox__main {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 58rem) {
+  .backdrop-sandbox__workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .backdrop-sandbox__form {
+    position: static;
+  }
+}
