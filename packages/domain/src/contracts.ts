@@ -149,8 +149,9 @@ export type StandardVersion =
 export interface StandardEvidence extends Entity {
   readonly organizationId: EntityId;
   readonly target: StandardVersionReference;
-  readonly evidenceType: string;
-  readonly sourceReference: string;
+  readonly title: string;
+  readonly source: string;
+  readonly sourceUri?: string;
   readonly contentHash?: string;
   readonly capturedAt: IsoDateTime;
   readonly addedByUserId: EntityId;
@@ -172,6 +173,7 @@ export const STANDARDS_AUDIT_ACTIONS = [
   "membership_created",
   "membership_roles_changed",
   "standard_created",
+  "standard_edited",
   "version_created",
   "version_edited",
   "submitted_for_review",

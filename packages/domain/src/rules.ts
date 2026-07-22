@@ -29,7 +29,8 @@ export const DOMAIN_RULE_VIOLATION_CODES = [
   "standards_approver_role_required",
   "self_approval_forbidden",
   "assigned_reviewer_required",
-  "retirement_reason_required"
+  "retirement_reason_required",
+  "review_rejection_reason_required"
 ] as const;
 
 export type DomainRuleViolationCode =
@@ -355,6 +356,96 @@ export function validateApprovalActor(
   }
 
   return violations;
+}
+
+export interface ApprovalMembershipInput {
+  readonly actorMembershipId: EntityId;
+  readonly actorRoles: readonly MembershipRole[];
+  readonly createdByMembershipId: EntityId;
+  readonly editorMembershipIds: readonly EntityId[];
+  readonly reviewerMembershipId: EntityId;
+}
+
+export interface IndependentReviewerMembershipInput {
+  readonly reviewerMembershipId: EntityId;
+  readonly createdByMembershipId: EntityId;
+  readonly editorMembershipIds: readonly EntityId[];
+}
+
+export function validateIndependentReviewerMembership(
+  input: IndependentReviewerMembershipInput
+): readonly DomainRuleViolation[] {
+  return input.reviewerMembershipId === input.createdByMembershipId ||
+    input.editorMembershipIds.includes(input.reviewerMembershipId)
+    ? [
+        violation(
+          "self_approval_forbidden",
+          "A creator or editor cannot review and approve the same version."
+        )
+      ]
+    : [];
+}
+
+export function validateApprovalMembership(
+  input: ApprovalMembershipInput
+): readonly DomainRuleViolation[] {
+  return [
+    ...validateIndependentReviewerMembership({
+      reviewerMembershipId: input.actorMembershipId,
+      createdByMembershipId: input.createdByMembershipId,
+      editorMembershipIds: input.editorMembershipIds
+    }),
+    ...validateReviewDecisionMembership({
+      actorMembershipId: input.actorMembershipId,
+      actorRoles: input.actorRoles,
+      reviewerMembershipId: input.reviewerMembershipId
+    })
+  ];
+}
+
+export interface ReviewDecisionMembershipInput {
+  readonly actorMembershipId: EntityId;
+  readonly actorRoles: readonly MembershipRole[];
+  readonly reviewerMembershipId: EntityId;
+}
+
+export function validateReviewDecisionMembership(
+  input: ReviewDecisionMembershipInput
+): readonly DomainRuleViolation[] {
+  const violations: DomainRuleViolation[] = [];
+
+  if (!input.actorRoles.includes("standards_approver")) {
+    violations.push(
+      violation(
+        "standards_approver_role_required",
+        "A Standards Approver role is required."
+      )
+    );
+  }
+
+  if (input.actorMembershipId !== input.reviewerMembershipId) {
+    violations.push(
+      violation(
+        "assigned_reviewer_required",
+        "Only the assigned independent reviewer may decide the version."
+      )
+    );
+  }
+
+  return violations;
+}
+
+export function validateReviewRejection(
+  rationale: string
+): readonly DomainRuleViolation[] {
+  return rationale.trim().length > 0
+    ? []
+    : [
+        violation(
+          "review_rejection_reason_required",
+          "A reason is required when requesting changes."
+        )
+      ];
 }
 
 export function validateRetirement(
