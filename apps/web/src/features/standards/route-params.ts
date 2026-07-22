@@ -1,6 +1,4 @@
-import type { StandardKind } from "@yuppie/domain";
-
-import type { StandardsDisplayStatus } from "../../server/standards/read-model";
+import type { StandardKind, StandardsDisplayStatus } from "@yuppie/domain";
 import type { StandardsSearchParams } from "./views";
 
 export type RawSearchParams = Readonly<Record<string, string | string[] | undefined>>;

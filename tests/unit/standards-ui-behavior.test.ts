@@ -5,6 +5,12 @@ import {
   createStandardRequestSchema,
   rejectStandardVersionRequestSchema
 } from "../../packages/validation/src/index";
+import type {
+  StandardReadModel,
+  StandardsViewerContext,
+  StandardsWorkspaceReadModel,
+  StandardVersionReadModel
+} from "../../packages/domain/src/read-models/index";
 
 import { EmptyState, ErrorState, LoadingState } from "../../apps/web/src/components/standards";
 import { formValidationMessage, LifecycleActions, VersionForm } from "../../apps/web/src/features/standards/mutation-forms";
@@ -18,11 +24,7 @@ import { collectionKinds, parseStandardsSearchParams } from "../../apps/web/src/
 import {
   canApproveVersion,
   canRetireVersion,
-  eligibleApprovers,
-  type StandardReadModel,
-  type StandardsViewerContext,
-  type StandardsWorkspaceReadModel,
-  type StandardVersionReadModel
+  eligibleApprovers
 } from "../../apps/web/src/server/standards/read-model";
 
 vi.mock("next/navigation", () => ({

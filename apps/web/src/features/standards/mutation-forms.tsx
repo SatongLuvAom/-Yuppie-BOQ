@@ -2,7 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState, useTransition } from "react";
-import type { StandardKind } from "@yuppie/domain";
+import type {
+  StandardKind,
+  StandardReadModel,
+  StandardsApproverOption,
+  StandardVersionReadModel
+} from "@yuppie/domain";
 import {
   addStandardEvidenceRequestSchema,
   approveStandardVersionRequestSchema,
@@ -32,11 +37,6 @@ import {
   updateDraftStandardVersionAction
 } from "../../server/standards/actions";
 import type { StandardsActionResponse } from "../../server/standards/handler-factory";
-import type {
-  StandardReadModel,
-  StandardsApproverOption,
-  StandardVersionReadModel
-} from "../../server/standards/read-model";
 import { eligibleApprovers } from "../../server/standards/read-model";
 import {
   apiErrorMessage,

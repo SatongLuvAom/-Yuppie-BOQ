@@ -1,24 +1,24 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type {
   MembershipRole,
+  StandardAuditReadModel,
+  StandardEvidenceReadModel,
   StandardKind,
-  StandardLifecycleStatus
+  StandardLifecycleStatus,
+  StandardReadModel,
+  StandardsApproverOption,
+  StandardsDashboardCounts,
+  StandardsListFilters,
+  StandardsReadResult,
+  StandardsViewerContext,
+  StandardsWorkspaceReadModel,
+  StandardVersionReadModel
 } from "@yuppie/domain";
 
 import { createAuthenticatedSupabaseClient } from "../supabase/client";
 import {
   latestVersion,
-  statusForDisplay,
-  type StandardAuditReadModel,
-  type StandardEvidenceReadModel,
-  type StandardReadModel,
-  type StandardsApproverOption,
-  type StandardsDashboardCounts,
-  type StandardsListFilters,
-  type StandardsReadResult,
-  type StandardsViewerContext,
-  type StandardsWorkspaceReadModel,
-  type StandardVersionReadModel
+  statusForDisplay
 } from "./read-model";
 
 const READ_LIMIT = 100;

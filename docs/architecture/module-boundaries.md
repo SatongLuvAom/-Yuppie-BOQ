@@ -9,7 +9,7 @@ services or distributed-system overhead.
 | Module | Owns | Must not own |
 | --- | --- | --- |
 | `apps/web` | HTTP and page composition | BOQ formulas, persistence rules |
-| `packages/domain` | Portable domain types and identities | I/O, CRUD, framework code |
+| `packages/domain` | Portable domain types, identities, and storage-independent read DTOs | I/O, CRUD, framework code |
 | `packages/calculation` | Future deterministic calculations | React, Next.js, DB, browser APIs |
 | `packages/validation` | Runtime input validation | Persistence and UI behavior |
 | `packages/db` | Supabase/Postgres adapters and mapping | Business rules and formulas |
@@ -35,10 +35,14 @@ They do not define the meaning of a calculation or a standard.
 6. `apps/web` is the composition root and is the only layer permitted to wire
    presentation, application flow, and infrastructure together.
 7. No package imports from an app. Cross-package cycles are prohibited.
+8. Server adapters map persistence rows to shared read DTOs. UI code consumes
+   those DTOs and must not import database row types or `packages/db` types.
+
+Shared read-model ownership and its layer impacts are recorded in
+`docs/decisions/ADR-004-read-model-ownership.md`.
 
 ## Change rule
 
 Add a dependency only when the owning responsibility requires it. A boundary
 change affecting more than one module requires an architecture decision record
 under `docs/decisions` before implementation.
-

@@ -73,7 +73,11 @@ importers:
         specifier: workspace:*
         version: link:../domain
 
-  packages/calculation: {}
+  packages/calculation:
+    dependencies:
+      '@yuppie/domain':
+        specifier: workspace:*
+        version: link:../domain
 
   packages/config: {}
 

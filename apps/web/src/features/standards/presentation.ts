@@ -1,13 +1,13 @@
-import type { StandardKind } from "@yuppie/domain";
+import type {
+  StandardKind,
+  StandardsDisplayStatus,
+  StandardVersionReadModel
+} from "@yuppie/domain";
 
 import type {
   StandardsApiError,
   StandardsApiErrorCode
 } from "../../server/standards/handler-factory";
-import type {
-  StandardsDisplayStatus,
-  StandardVersionReadModel
-} from "../../server/standards/read-model";
 
 export const standardKindLabels: Readonly<Record<StandardKind, string>> = {
   material: "วัสดุมาตรฐาน",
