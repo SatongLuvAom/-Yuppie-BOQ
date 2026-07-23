@@ -10,7 +10,7 @@ import { type FormEvent, useState } from "react";
 
 const warningLabels: Readonly<Record<BackdropTakeoffWarningCode, string>> = {
   HEIGHT_EXCEEDS_HMR_SHEET: "ความสูงเกินแผ่น HMR แนวตั้ง ต้องแบ่งแผ่นและมีรอยต่อแนวนอน",
-  WOOD_MEMBER_SPLIT: "มีชิ้นโครงยาวเกินไม้ซื้อ ระบบแบ่งเป็นท่อนใน Cut List แล้ว",
+  WOOD_MEMBER_SPLIT: "มีชิ้นโครงยาวเกินไม้ซื้อ ระบบแบ่งเป็นท่อนแล้ว",
   HMR_JOINT_SUPPORT_REQUIRED: "มีรอยต่อ HMR และระบบเพิ่มไม้รองตามแนวรอยต่อแล้ว",
   SANDBOX_ESTIMATE: "ผลนี้เป็น Sandbox Estimate ไม่ใช่ BOQ และไม่รวมราคา"
 };
@@ -42,7 +42,7 @@ function ResultMetrics({ result }: { readonly result: BackdropTakeoffResult }) {
     ["HMR แบบจัดวาง", `${result.hmr.layoutEstimateSheets} แผ่น`, `HMR ${result.hmr.thicknessMm} มม.`],
     ["HMR ตามพื้นที่", `${result.hmr.areaEstimateSheets} แผ่น`, `${decimal(result.hmr.surfaceAreaM2)} ตร.ม.`],
     ["ไม้ซื้อ", `${result.wood.totalStockBars} เส้น`, `${metres(result.wood.stockLengthM)}/เส้น`],
-    ["เศษไม้รวม", metres(result.wood.totalRemainingLengthM), "หลังจัด Cut List"]
+    ["เศษไม้รวม", metres(result.wood.totalRemainingLengthM), "หลังจัดชิ้นลงไม้ซื้อ"]
   ] as const;
 
   return (
@@ -62,8 +62,7 @@ function FrameSummary({ result }: { readonly result: BackdropTakeoffResult }) {
   const summaries = [
     ["แนวโครงตั้ง", `${result.frameLayout.verticalPositions.length} แนว`],
     ["แนวโครงนอน", `${result.frameLayout.horizontalPositions.length} แนว`],
-    ["ชิ้นโครงก่อนแบ่ง", `${result.wood.members.length} ชิ้น`],
-    ["ชิ้นไม้ใน Cut List", `${result.wood.totalCutPieces} ชิ้น`]
+    ["ชิ้นโครงก่อนแบ่ง", `${result.wood.members.length} ชิ้น`]
   ] as const;
 
   return (
@@ -108,46 +107,6 @@ function Warnings({ result }: { readonly result: BackdropTakeoffResult }) {
   );
 }
 
-function CutList({ result }: { readonly result: BackdropTakeoffResult }) {
-  return (
-    <section className="surface" aria-labelledby="cut-list-title">
-      <div className="surface__header">
-        <div>
-          <h2 className="surface__title" id="cut-list-title">Cut List</h2>
-          <p className="surface__description">รายการชิ้นตัดจาก Calculation Engine ปัจจุบัน</p>
-        </div>
-        <span className="status-badge tone--neutral">FFD</span>
-      </div>
-      <div className="table-wrap">
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th>ชิ้นตัด</th>
-              <th>Backdrop</th>
-              <th>แนว</th>
-              <th>ตำแหน่ง</th>
-              <th>ความยาว</th>
-              <th>ท่อน</th>
-            </tr>
-          </thead>
-          <tbody>
-            {result.wood.cutPieces.map((piece) => (
-              <tr key={piece.id}>
-                <td><span className="data-table__primary">{piece.id}</span></td>
-                <td>{piece.backdropIndex}</td>
-                <td>{piece.orientation === "vertical" ? "ตั้ง" : "นอน"}</td>
-                <td>{metres(piece.positionM)}</td>
-                <td>{metres(piece.lengthM)}</td>
-                <td>{piece.segmentIndex}/{piece.segmentCount}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </section>
-  );
-}
-
 function StockList({ result }: { readonly result: BackdropTakeoffResult }) {
   return (
     <section className="surface" aria-labelledby="stock-title">
@@ -162,7 +121,6 @@ function StockList({ result }: { readonly result: BackdropTakeoffResult }) {
           <thead>
             <tr>
               <th>ไม้ซื้อ</th>
-              <th>ชิ้นที่ลงเส้นนี้</th>
               <th>ความยาวใช้</th>
               <th>เศษ</th>
             </tr>
@@ -171,11 +129,6 @@ function StockList({ result }: { readonly result: BackdropTakeoffResult }) {
             {result.wood.stockBars.map((bar) => (
               <tr key={bar.id}>
                 <td><span className="data-table__primary">{bar.id}</span></td>
-                <td>
-                  <div className="backdrop-stock-cuts">
-                    {bar.cutPieceIds.map((pieceId) => <span key={pieceId}>{pieceId}</span>)}
-                  </div>
-                </td>
                 <td>{metres(bar.usedLengthM)}</td>
                 <td>{metres(bar.remainingLengthM)}</td>
               </tr>
@@ -193,7 +146,6 @@ function Results({ result }: { readonly result: BackdropTakeoffResult }) {
       <ResultMetrics result={result} />
       <FrameSummary result={result} />
       <Warnings result={result} />
-      <CutList result={result} />
       <StockList result={result} />
       <p className="data-table__secondary">
         Rule Set {result.ruleSetId} v{result.ruleSetVersion} · Build {result.buildId}
@@ -292,7 +244,7 @@ export function BackdropPrivatePreview() {
                   <span className="state-panel__mark" aria-hidden="true">1F</span>
                   <h2 className="state-panel__title">รอขนาด Backdrop</h2>
                   <p className="state-panel__description">
-                    ระบบจะแสดงขนาด จำนวน HMR โครงไม้ Cut List เศษไม้ และคำเตือน โดยไม่ใช้ข้อมูล Production
+                    ระบบจะแสดงขนาด จำนวน HMR โครงไม้ เศษไม้ และคำเตือน โดยไม่ใช้ข้อมูล Production
                   </p>
                 </div>
               </section>
